@@ -6,7 +6,7 @@ Listado.prototype.reservarUnHorario = function(id, horario) {
     //Busca el objeto que posee el id dado
     var restaurant = this.buscarRestaurante(id);
     //Le envía el mensaje al objeto encontrado para que reserve el horario
-    restaurant.reservarHorario(horario);
+    restaurant.horarios = restaurant.reservarHorario(horario);
 }
 
 Listado.prototype.calificarRestaurant = function(id, calificacion) {

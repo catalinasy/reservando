@@ -10,9 +10,9 @@ var Restaurant = function(id, nombre, rubro, ubicacion, horarios, imagen, califi
 
 Restaurant.prototype.reservarHorario = function(horarioReservado) {
     const result = this.horarios.filter(r=> {
-         r.horarios == horarioReservado;
+        return r != horarioReservado;
         })
-        console.log(result)
+    return result
     }
 
 
