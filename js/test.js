@@ -137,3 +137,14 @@ describe('testeo obtener restaurante', ()=>{
     })
     
 })
+
+describe('Testear Nueva Reserva', ()=>{
+
+    it('calcular precio total', ()=>{
+        var reserva1 = new Reserva (new Date(2018, 7, 24, 11, 00), 8, 350, "DES1")
+        
+        var reserva2 = new Reserva (new Date(2018, 7, 27, 14, 100), 2, 150, "DES200")
+
+        console.log(reserva1.qDePersonas)
+    })
+})

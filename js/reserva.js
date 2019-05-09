@@ -1,8 +1,8 @@
 var Reserva = function(Date, qDePersonas, precio, codigo) {
-    this.date = new Date (),
+    this.date = Date,
     this.qDePersonas = qDePersonas,
     this.precioPorPersona = precio,
-    this.codigoDescuento = codigo,
+    this.codigoDescuento = codigo
 }
 
 Reserva.prototype.calcularPrecioBase = () =>{
@@ -10,40 +10,41 @@ Reserva.prototype.calcularPrecioBase = () =>{
 }
 
 Reserva.prototype.calcularPrecioTotal = () =>{
-    const precioBase = reserva.calcularPrecioBase
+    const precioBase = this.calcularPrecioBase
     let descuentos = 0
     const comensales = this.qDePersonas
     const codigoDescuento = this.codigoDeDescuento
     let adicionales = 0
     const horaReserva = this.Date.hor_num 
-    let diaDeSemana = this.Date.getDay()
+
+    console.log(this.precioPorPersona)
 
     if(comensales >= 4 && comensales <= 6){
-        descuentos = (0.05*precioBase)
+       return descuentos = (0.05*precioBase)
     }
     else if(comensales >= 7 && comensales <= 8){
-        descuentos = (0.10*precioBase)
+        return descuentos = (0.10*precioBase)
     }
     else if(comensales > 8 ){
-        descuentos = (0.15*precioBase)
+        return descuentos = (0.15*precioBase)
     }
 
-    if(codigoDescuento === DES15) {
-        descuentos = (0.15*precioBase)
+    if(codigoDescuento === "DES15") {
+        return descuentos = (0.15*precioBase)
     } 
-    else if (codigoDescuento === DES200){
-        descuentos = 200
+    else if (codigoDescuento === "DES200"){
+        return descuentos = 200
     }
-    else if (codigoDescuento === DES1){
-        descuento = this.precioPorPersona
+    else if (codigoDescuento === "DES1"){
+        return descuento = this.precioPorPersona
     }
 
     if(horaReserva === 13 || horaReserva === 20){
-        adicionales = precioBase * 0.05
+        return adicionales = precioBase * 0.05
     }
-    if(diaDeSemana >3){
-        adicionales = precioBase * 0.10
-    }
+    // if(diaDeSemana >3){
+    //     return adicionales = precioBase * 0.10
+    // }
 
     //como hago para comprar los horarios? si los horarios estan actualmente cargados como un string?
     
@@ -51,7 +52,8 @@ Reserva.prototype.calcularPrecioTotal = () =>{
 //fue hecha para un horario dentro de esos rangos. Adicional por fin de semana: si la reserva fue realizada para alguno de los días del fin de
 //semana (viernes, sábado o domingo) se le agrega un adicional del 10%.
 
-    var precioTotal =  precioBase + adicionales - descuentos
-    console.log(precioTotal)
+
+return precioBase + adicionales - descuentos
+    
 }
 
