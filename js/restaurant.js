@@ -22,17 +22,26 @@ Restaurant.prototype.calificar = function(nuevaCalificacion) {
     }
 }
 
-Restaurant.prototype.obtenerPuntuacion = function() {
-    if (this.calificaciones.length === 0) {
-        return 0;
-    } else {
-        var sumatoria = 0;
-        for (var i = 0; i < this.calificaciones.length; i++) {
-            sumatoria += this.calificaciones[i]
+Restaurant.prototype.sumar = function(array){
+    var sumatoria = 0;
+        for (var i = 0; i < array.length; i++) {
+            sumatoria += array[i]
         }
-        var promedio = sumatoria / this.calificaciones.length;
-        return Math.round(promedio * 10) / 10;
-    }
-
+    return sumatoria;
 }
 
+Restaurant.prototype.promedio = function(restaurant){
+    var sumatoria = restaurant.sumar(restaurant.calificaciones)
+    var promedio = sumatoria /restaurant.calificaciones.length;
+    return Math.round(promedio * 10) / 10;
+}
+
+
+Restaurant.prototype.obtenerPuntuacion = function() {
+    var restaurant = this
+    if (restaurant.calificaciones.length === 0) {
+        return 0;
+    } else {
+        return restaurant.promedio(restaurant)
+    }
+}
