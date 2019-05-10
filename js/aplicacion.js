@@ -84,6 +84,7 @@ Aplicacion.prototype.crearTarjetaDeRestaurante = function(restaurant) {
     restaurant.horarios.sort().forEach(function(horario) {
         var nuevoHorario = $("<span/>").attr("class", "horario").html(horario);
         nuevoHorario.click(function() {
+            
             self.reservarUnHorario(restaurant, horario);
         })
         nuevoHorario.appendTo(contenedorHorarios);

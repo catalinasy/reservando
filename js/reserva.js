@@ -6,11 +6,23 @@ var Reserva = function(Date, qDePersonas, precio, codigo) {
 }
 
 
-Reserva.prototype.calcularPrecioBase = function(reserva){
-    const precioBase = reserva.precioPorPersona * reserva.qDePersonas
-    return precioBase 
+
+
+Reserva.prototype.calcularPrecioTotal = function(){
+    const reserva = this
+    const precioBase = reserva.calcularPrecioBase()
+    let descuentos = reserva.calcularDescuentos(reserva)
+    let adicionales = reserva.calcularAdicionales(reserva)
+    const precioTotal = precioBase + adicionales - descuentos
+    console.log({precioBase, adicionales, descuentos, precioTotal})
+    return precioTotal
+    
 }
 
+Reserva.prototype.calcularPrecioBase = function(){
+    const precioBase = this.precioPorPersona * this.qDePersonas
+    return precioBase 
+}
 
 Reserva.prototype.descuentoPorComensales = function(reserva){
     
@@ -65,21 +77,10 @@ Reserva.prototype.calcularAdicionales = function(reserva){
     const diaDeSemana = fecha.getDay()
     
     horaReserva == 13 || horaReserva == 20 ? (adicionales = precioBase * 0.05 ) :
-    diaDeSemana >3 ? adicionales = precioBase * 0.10 :
+    diaDeSemana > 3 ? ((console.log("entro en día de semana")), adicionales = precioBase * 0.10) :
     adicionales = 0
     return adicionales
     }
 
 
-
-Reserva.prototype.calcularPrecioTotal = function(){
-    const reserva = this
-    const precioBase = reserva.calcularPrecioBase(reserva)
-    let descuentos = reserva.calcularDescuentos(reserva)
-    let adicionales = reserva.calcularAdicionales(reserva)
-    const precioTotal = precioBase + adicionales - descuentos
-    console.log({precioBase, adicionales, descuentos, precioTotal})
-    return precioTotal
-    
-}
 
