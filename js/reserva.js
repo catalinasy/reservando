@@ -5,19 +5,19 @@ var Reserva = function(Date, qDePersonas, precio, codigo) {
     this.codigoDescuento = codigo
 }
 
-Reserva.prototype.calcularPrecioBase = () =>{
+Reserva.prototype.calcularPrecioBase = function(){
+    console.log(this)
     return this.precioPorPersona * this.qDePersonas
 }
 
-Reserva.prototype.calcularPrecioTotal = () =>{
+Reserva.prototype.calcularPrecioTotal = function(){
     const precioBase = this.calcularPrecioBase
     let descuentos = 0
     const comensales = this.qDePersonas
     const codigoDescuento = this.codigoDeDescuento
     let adicionales = 0
-    const horaReserva = this.Date.hor_num 
+    // const horaReserva = this.Date.hor_num 
 
-    console.log(this.precioPorPersona)
 
     if(comensales >= 4 && comensales <= 6){
        return descuentos = (0.05*precioBase)
@@ -39,9 +39,9 @@ Reserva.prototype.calcularPrecioTotal = () =>{
         return descuento = this.precioPorPersona
     }
 
-    if(horaReserva === 13 || horaReserva === 20){
-        return adicionales = precioBase * 0.05
-    }
+    // if(horaReserva === 13 || horaReserva === 20){
+    //     return adicionales = precioBase * 0.05
+    // }
     // if(diaDeSemana >3){
     //     return adicionales = precioBase * 0.10
     // }
