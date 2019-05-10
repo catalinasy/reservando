@@ -5,55 +5,81 @@ var Reserva = function(Date, qDePersonas, precio, codigo) {
     this.codigoDescuento = codigo
 }
 
-Reserva.prototype.calcularPrecioBase = function(){
-    console.log(this)
-    return this.precioPorPersona * this.qDePersonas
+
+Reserva.prototype.calcularPrecioBase = function(reserva){
+    const precioBase = reserva.precioPorPersona * reserva.qDePersonas
+    return precioBase 
 }
 
-Reserva.prototype.calcularPrecioTotal = function(){
-    const precioBase = this.calcularPrecioBase
-    let descuentos = 0
-    const comensales = this.qDePersonas
-    const codigoDescuento = this.codigoDeDescuento
-    let adicionales = 0
-    // const horaReserva = this.Date.hor_num 
 
-
-    if(comensales >= 4 && comensales <= 6){
-       return descuentos = (0.05*precioBase)
-    }
-    else if(comensales >= 7 && comensales <= 8){
-        return descuentos = (0.10*precioBase)
-    }
-    else if(comensales > 8 ){
-        return descuentos = (0.15*precioBase)
-    }
-
-    if(codigoDescuento === "DES15") {
-        return descuentos = (0.15*precioBase)
-    } 
-    else if (codigoDescuento === "DES200"){
-        return descuentos = 200
-    }
-    else if (codigoDescuento === "DES1"){
-        return descuento = this.precioPorPersona
-    }
-
-    // if(horaReserva === 13 || horaReserva === 20){
-    //     return adicionales = precioBase * 0.05
-    // }
-    // if(diaDeSemana >3){
-    //     return adicionales = precioBase * 0.10
-    // }
-
-    //como hago para comprar los horarios? si los horarios estan actualmente cargados como un string?
+Reserva.prototype.descuentoPorComensales = function(reserva){
     
-// Adicional por horario: las franjas horarias de 13 a 14 y de 20 a 21 horas son muy concurridas. Se agrega un adicional del 5% si la reserva 
-//fue hecha para un horario dentro de esos rangos. Adicional por fin de semana: si la reserva fue realizada para alguno de los días del fin de
-//semana (viernes, sábado o domingo) se le agrega un adicional del 10%.
+    const precioBase = reserva.calcularPrecioBase(reserva)
+    let descuentosPorComensales = 0
+    const comensales = reserva.qDePersonas
+
+    comensales >= 4 && comensales <= 6 ? (descuentosPorComensales += (0.05*precioBase)) :
+ 
+    comensales >= 7 && comensales <= 8 ?( descuentosPorComensales += (0.10*precioBase)) :
+
+    comensales > 8 ?( descuentosPorComensales += (0.15*precioBase)):
+
+    descuentosPorComensales += 0
+
+    return descuentosPorComensales
+}
+
+Reserva.prototype.descuentoPorCodigo= function(reserva){
+    const precioBase = reserva.calcularPrecioBase(reserva)
+    const codigo = reserva.codigoDescuento;
+    let descuentosPorCodigo = 0;
+
+    codigo === "DES15" ? ( descuentosPorCodigo += (0.15*precioBase)) :
+
+    codigo === "DES200" ? ( descuentosPorCodigo += 200) :
+
+    codigo === "DES1" ? (descuentosPorCodigo += reserva.precioPorPersona) :
+
+    descuentosPorCodigo += 0;
+
+     
+    return descuentosPorCodigo
+}
 
 
-return precioBase + adicionales - descuentos
+Reserva.prototype.calcularDescuentos = function(reserva){
+   
+ 
+    const descuentoPorComensales = reserva.descuentoPorComensales(reserva)
+    const descuentoPorCodigo = reserva.descuentoPorCodigo(reserva)
+    return descuentoPorCodigo + descuentoPorComensales
+     
+
+}
+
+Reserva.prototype.calcularAdicionales = function(reserva){
+    let adicionales = 0;
+    const fecha = reserva.date
+    const horaReserva = fecha.getHours()
+    const precioBase = reserva.calcularPrecioBase()
+    const diaDeSemana = fecha.getDay()
+    
+    horaReserva == 13 || horaReserva == 20 ? (adicionales = precioBase * 0.05 ) :
+    diaDeSemana >3 ? adicionales = precioBase * 0.10 :
+    adicionales = 0
+    return adicionales
+    }
+
+
+
+Reserva.prototype.calcularPrecioTotal = function(){
+    const reserva = this
+    const precioBase = reserva.calcularPrecioBase(reserva)
+    let descuentos = reserva.calcularDescuentos(reserva)
+    let adicionales = reserva.calcularAdicionales(reserva)
+    const precioTotal = precioBase + adicionales - descuentos
+    console.log({precioBase, adicionales, descuentos, precioTotal})
+    return precioTotal
     
 }
 

@@ -140,10 +140,23 @@ describe('testeo obtener restaurante', ()=>{
 
 describe('Testear Nueva Reserva', ()=>{
 
-    it('calcular precio total', ()=>{
+    it('calcular precio total sobre reserva1', ()=>{
         var reserva1 = new Reserva (new Date(2018, 7, 24, 11, 00), 8, 350, "DES1")
+        expect(reserva1.calcularPrecioTotal()).to.equal(2310)
+    })
+    it('calcular precio total sobre reserva2', ()=>{
+        var reserva2 = new Reserva (new Date(2018, 7, 27, 14, 100), 2, 150, "DES200")
+        expect(reserva2.calcularPrecioTotal()).to.equal(100)
+    })
+    it('calcular precio base reserva1',()=>{
+        
+        var reserva1 = new Reserva (new Date(2018, 7, 24, 11, 00), 8, 350, "DES1")
+        expect(reserva1.calcularPrecioBase()).to.equal(2800)
+
+    })
+    it('calcular precio base reserva2', ()=>{
         
         var reserva2 = new Reserva (new Date(2018, 7, 27, 14, 100), 2, 150, "DES200")
-        return reserva1.calcularPrecioTotal();
+        expect(reserva2.calcularPrecioTotal()).to.equal(300)
     })
 })
