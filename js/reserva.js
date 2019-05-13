@@ -5,28 +5,33 @@ var Reserva = function(Date, qDePersonas, precio, codigo) {
     this.codigoDescuento = codigo
 }
 
-
-
-
-Reserva.prototype.calcularPrecioTotal = function(){
-    const reserva = this
-    const precioBase = reserva.calcularPrecioBase()
-    let descuentos = reserva.calcularDescuentos(reserva)
-    let adicionales = reserva.calcularAdicionales(reserva)
-    const precioTotal = precioBase + adicionales - descuentos
-    console.log({precioBase, adicionales, descuentos, precioTotal})
-    return precioTotal
-    
-}
+//Primero calculo el precio base
 
 Reserva.prototype.calcularPrecioBase = function(){
     const precioBase = this.precioPorPersona * this.qDePersonas
     return precioBase 
 }
 
+//Despues calculo los adicionales 
+
+Reserva.prototype.calcularAdicionales = function(reserva){
+    let adicionales = 0;
+    const fecha = reserva.date
+    const horaReserva = fecha.getHours()
+    const precioBase = reserva.calcularPrecioBase()
+    const diaDeSemana = fecha.getDay()
+    
+    horaReserva == 13 || horaReserva == 20 ? (adicionales += precioBase * 0.05 ) :
+    diaDeSemana > 3 ? ( adicionales += precioBase * 0.10) :
+    adicionales += 0
+    return adicionales
+    }
+
+//Calculo el descuento por comensales
+
 Reserva.prototype.descuentoPorComensales = function(reserva){
     
-    const precioBase = reserva.calcularPrecioBase(reserva)
+    const precioBase = reserva.calcularPrecioBase()
     let descuentosPorComensales = 0
     const comensales = reserva.qDePersonas
 
@@ -41,8 +46,10 @@ Reserva.prototype.descuentoPorComensales = function(reserva){
     return descuentosPorComensales
 }
 
+//Calculo el descuento por codigo de descuento ingresado
+
 Reserva.prototype.descuentoPorCodigo= function(reserva){
-    const precioBase = reserva.calcularPrecioBase(reserva)
+    const precioBase = reserva.calcularPrecioBase()
     const codigo = reserva.codigoDescuento;
     let descuentosPorCodigo = 0;
 
@@ -58,6 +65,7 @@ Reserva.prototype.descuentoPorCodigo= function(reserva){
     return descuentosPorCodigo
 }
 
+//Calcula la suma de todos los descuentos
 
 Reserva.prototype.calcularDescuentos = function(reserva){
    
@@ -69,18 +77,14 @@ Reserva.prototype.calcularDescuentos = function(reserva){
 
 }
 
-Reserva.prototype.calcularAdicionales = function(reserva){
-    let adicionales = 0;
-    const fecha = reserva.date
-    const horaReserva = fecha.getHours()
-    const precioBase = reserva.calcularPrecioBase()
-    const diaDeSemana = fecha.getDay()
-    
-    horaReserva == 13 || horaReserva == 20 ? (adicionales = precioBase * 0.05 ) :
-    diaDeSemana > 3 ? ((console.log("entro en día de semana")), adicionales = precioBase * 0.10) :
-    adicionales = 0
-    return adicionales
+
+
+//Calcula el precio total
+
+    Reserva.prototype.calcularPrecioTotal = function(){
+        const reserva = this
+        const precioBase = reserva.calcularPrecioBase()
+        let descuentos = reserva.calcularDescuentos(reserva)
+        let adicionales = reserva.calcularAdicionales(reserva)
+        return precioBase + adicionales - descuentos
     }
-
-
-
